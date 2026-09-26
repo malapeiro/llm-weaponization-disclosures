@@ -12,7 +12,7 @@ This repository is distinct from [`llm-alignment-research`](https://github.com/m
 
 - **Execution-verified** — the generated artifact was independently compiled and/or run (e.g., in an isolated sandbox) and confirmed to function as described.
 - **Architecture-verified, execution not performed** — the generated artifact's structure (API sequencing, control flow, technique mapping) was confirmed to match a documented real-world technique, but the literal code was not compiled or executed.
-- **Textual compliance — unverified code generation** — the model produced the offensive artifact in text form; the artifact's structure appears consistent with a documented technique, but no independent verification of the structure, compilation, or execution was performed. This is a real finding — the model produced offensive content it should have refused — but it carries the lowest evidentiary weight of the three levels.
+- **Textual compliance — unverified code generation** — the model produced the offensive artifact in text form; the artifact's structure appears consistent with a documented technique, but no independent verification of the structure, compilation, or execution was performed. This level records that the artifact was produced, but carries the lowest evidentiary weight of the three levels.
 
 A case study never claims a higher level than what was actually done. Where the model itself flags uncertainty in part of its own output, that is disclosed rather than smoothed over.
 
@@ -38,7 +38,9 @@ Where full artifacts exist privately (redacted source, compiled binaries, execut
 
 ## Ethics and Responsible Disclosure
 
-All testing is conducted in the researcher's own, isolated environment (no production or third-party systems). Where execution is performed, it is confined to a controlled sandbox; no code is run against real or production systems. No third-party systems, data, or users are affected at any stage. Vendors are notified through official disclosure channels (email, HackerOne where applicable) where prior notification has occurred; where a case study departs from that norm, the reason is stated explicitly in its own Disclosure Timeline section, consistent with the disclosure practice followed in `llm-alignment-research`.
+All testing is conducted in the researcher's own, isolated environment (no production or third-party systems). Where execution is performed, it is confined to a controlled sandbox; no code is run against real or production systems. No third-party systems, data, or users are affected at any stage.
+
+Vendors are notified through their official disclosure channels (e.g., `security@mistral.ai` for Mistral AI). Where a finding was also submitted through a third-party disclosure platform (e.g., HackerOne), the submission reference is retained privately and made available on request, consistent with responsible disclosure practice. Where a case study departs from the notification norm, the reason is stated explicitly in its own Disclosure Timeline section, consistent with the disclosure practice followed in `llm-alignment-research`.
 
 **Disclosure policy:** findings in this repository are submitted to the affected vendor via official channels before publication. If a submitted report receives no triage acknowledgement within **60 days**, the finding may be published in redacted form without further notice, consistent with common full-disclosure practice. Any departure from this policy is stated explicitly in the case study's own Disclosure Timeline section.
 
