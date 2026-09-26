@@ -34,7 +34,7 @@ Full artifacts (redacted source, compiled binaries, execution recordings) are re
 
 ## Ethics and Responsible Disclosure
 
-All testing is conducted in the researcher's own, isolated environment (sandboxed VMs, no production or third-party systems). No artifact is executed outside a controlled sandbox. No third-party systems, data, or users are affected at any stage. Vendors are notified through official disclosure channels (email, HackerOne where applicable) prior to publication, and findings are published here only after a reasonable response window has elapsed without acknowledgment or fix — consistent with the disclosure practice followed in `llm-alignment-research`.
+All testing is conducted in the researcher's own, isolated environment (sandboxed VMs, no production or third-party systems). No artifact is executed outside a controlled sandbox. No third-party systems, data, or users are affected at any stage. Vendors are notified through official disclosure channels (email, HackerOne where applicable) where a responsive disclosure channel exists. Where the researcher has a documented history of unanswered disclosures to the same vendor, findings may be published without prior notification, with the disclosure history stated explicitly in each case study (see the case study's Disclosure Timeline section for the current finding).
 
 ## License
 
