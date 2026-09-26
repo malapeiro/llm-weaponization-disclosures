@@ -6,7 +6,7 @@
 - **Target Asset:** Vibe (ex-Le Chat, Web UI — chat.mistral.ai)
 - **Target Model:** mistral-medium-3.5 (Mistral Medium 3.5)
 - **Context/Environment:** Work Mode
-- **Contact:** sergio.azevedo.security@gmail.com
+- **Contact:** [sergio.azevedo.security@gmail.com](mailto:sergio.azevedo.security@gmail.com)
 - **License:** CC BY-NC-ND 4.0
 
 **Status:** Execution-verified. Single-session observation — see Limitations.
@@ -19,11 +19,12 @@ This report documents a guardrail bypass in Mistral AI's Vibe environment via a 
 
 ## 2. Vulnerability Class & Severity
 
-- **Vulnerability Class:** LLM Jailbreak / Prompt Injection (CWE-1039: Inadequate Detection or Handling of Adversarial Input Perturbations in Automated Recognition Mechanism)
-- **CWE Mapping Note:** CWE-1039 is used as the closest available mapping (Mapping Usage: Allowed-with-Review). The MITRE CWE taxonomy does not yet have a dedicated category for structural-coercion jailbreaks against generative LLMs; CWE-1039 was originally scoped to classical ML recognition systems (image/audio) and has since been extended to explicitly reference chatbots and LLM jailbreak prompts as an in-scope example.
-- **Severity:** High (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:N)
+- **Vulnerability Class:** LLM Prompt Injection / Guardrail Bypass (OWASP Top 10 for LLM Applications — LLM01: Prompt Injection; CWE-1039 as the closest available mapping, Mapping Usage: Allowed-with-Review)
+- **CWE Mapping Note:** The MITRE CWE taxonomy does not yet have a dedicated category for structural-coercion jailbreaks against generative LLMs. CWE-1039 was originally scoped to classical ML recognition systems (image/audio) and has since been extended to explicitly reference chatbots and LLM jailbreak prompts as an in-scope example.
 
-**Severity Justification:** While the vulnerability allows for the direct synthesis of weaponized malware, it is classified as High rather than Critical because it represents an application-layer policy bypass. It requires an authenticated user session and user interaction, and it does not compromise Mistral AI's underlying server infrastructure — there is no Remote Code Execution against Mistral's systems and no cross-tenant data exposure. Consequently, Confidentiality, Integrity, and Availability impact against the vendor's infrastructure are technically None under strict CVSS definitions. The "High" rating rests on the subversion of the model's safety guardrails and the downstream real-world impact of the generated malicious artifact — an impact this report, unlike most jailbreak disclosures, does not have to take on faith (see Section 5).
+**Severity (qualitative):** **High** — bypass reliability observed once (unreplicated); generated artifact impact high (functional RunPE implementation, execution-verified); reachability high (any authenticated user of the interface); vendor infrastructure impact none (no RCE, no cross-tenant exposure).
+
+**Severity Rationale:** CVSS is deliberately not applied. A CVSS:3.1 vector scoped to the vendor's infrastructure (C:N/I:N/A:N) would yield a numeric score of 0.0, which understates the finding; a vector scored on downstream abuse potential would be speculative. Consistent with practice for LLM-safety policy bypasses, this report classifies the finding under OWASP LLM01 with a qualitative rating of High, reflecting the subversion of safety guardrails and the demonstrated synthesis of weaponizable code — an impact verified through execution (Section 6) rather than assumed.
 
 ## 3. Origin Note
 
@@ -105,24 +106,13 @@ To preclude the possibility of LLM hallucination (i.e., generating syntactically
 
 This confirms the model did not merely produce syntactically plausible but inert code: the generated technique is a working, compilable RunPE implementation, independent of what payload an attacker would choose to inject.
 
-## 7. Operational Use Cases (Authorized Contexts)
+## 7. Authorized Use Context
 
-### PVTE (v1.0) – High-Friction Evasion
-
-- **Adversary Emulation (Red Teaming):** Rapid generation of functional Proof of Concepts (loaders, shellcode wrappers, memory injection) during authorized engagements, bypassing standard partial refusals.
-- **Bypassing AI False Positives:** LLMs frequently block legitimate sysadmin or reverse-engineering requests (kernel debugging, LSASS interaction for auditing). PVTE can force technical assistance past an overly broad classifier.
-- **Offensive Tooling Development:** Assisting architectural design of custom C2 frameworks or post-exploitation tools.
-
-### PVTE 2.0 – Defensive Intelligence Engine
-
-- **Detection Engineering (SOC / Blue Teaming):** Forces exact telemetry (Sysmon Event IDs, ETW providers) and detection rules (YARA, Sigma) for advanced techniques.
-- **Threat Intelligence Analysis:** Safely mapping execution flow of complex malware without risk of compiling dangerous code.
-- **Purple Teaming Exercises:** Red Team defines the theoretical attack vector; the AI generates the defensive counterpart and visibility expectations.
-- **Systems Architecture Auditing:** Forcing validation of restricted permissions (TrustedInstaller, UAC) before proposing production changes.
+This technique is relevant to, and was developed in the context of, authorized security work: red team engagements (adversary emulation and proof-of-concept development), purple team exercises, and detection engineering. The failure of PVTE 2.0 (dual-use framing) noted in Section 4 is itself relevant to defenders: it suggests the model's classifiers respond differently to procedural-compliance framing than to defensive framing of the same underlying request, which is a potentially useful signal for safety-layer design.
 
 ## 8. Security Impact
 
-Writing a stable, evasive Process Hollowing payload in C# — precise API structuring, accurate PEB offset mapping, architecture-specific context switching — typically introduces significant operational friction and requires dedicated research and debugging even for capable developers. By leveraging PVTE 1.0, this development friction is substantially circumvented, reducing the process to approximately 15 seconds of LLM inference time. The model delivers a syntactically correct, compilable baseline ready for immediate weaponization, automating the most time-consuming phases of offensive tool development.
+A stable Process Hollowing implementation in C# — correct API structuring, architecture-specific context handling, precise memory management — requires dedicated research and debugging even for capable developers. This finding demonstrates that the model, once coerced via PVTE 1.0, produced a syntactically correct, compilable implementation within a single inference request, effectively removing that development friction. The significance of the bypass is therefore not the novelty of the technique itself (Process Hollowing is well documented), but that a consumer-facing, guarded model produced a working implementation of it on demand, with the functional capability confirmed through execution (Section 6) rather than inferred from the model's output.
 
 ## 9. Remediation Recommendations
 
@@ -144,7 +134,9 @@ Writing a stable, evasive Process Hollowing payload in C# — precise API struct
 - **September 26, 2026 (~12:37 WEST):** Vulnerability discovered and initial PoC generated via Vibe (Work Mode).
 - **September 26, 2026:** Code compilation and dynamic execution verified in an isolated lab environment.
 - **September 26, 2026:** Vulnerability write-up drafted for responsible disclosure.
-- **September 26, 2026:** Pending submission via HackerOne (Mistral AI Bug Bounty Program).
+- **September 26, 2026:** No vendor notification was sent for this specific finding prior to publication.
+
+**Disclosure context:** This finding is published without prior vendor notification, a decision based on this researcher's documented disclosure history with Mistral AI: a responsible-disclosure email sent 25 July 2026 (ICS/SCADA system prompt injection, full technical report attached) and a subsequent HackerOne ticket for the same finding — neither of which received any acknowledgment or triage response in the two months that followed. This researcher will respond to vendor contact regarding this finding and update this report accordingly.
 
 **Vendor Context & Systemic Vulnerability Note:** This is not an isolated bypass, but a functional variant within a broader, systemic vulnerability family affecting Mistral's safety architecture. Previous high-severity disclosures submitted to Mistral AI by this researcher — the "Lilith" persona bypass and the ICS/SCADA critical infrastructure protocol evasion, both documented in the companion `llm-alignment-research` repository — relied on analogous structural flaws and cognitive overload techniques. Those reports did not receive a triage response, and the underlying vulnerabilities appear unpatched. The success of PVTE 1.0 demonstrates that the core architectural weakness — susceptibility to authoritarian role-play and structural coercion — remains unresolved across iterations.
 
