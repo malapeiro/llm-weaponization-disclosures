@@ -2,7 +2,7 @@
 
 Sérgio Azevedo (`malapeiro`) — Disclosures of LLM guardrail bypasses that produce offensive, weaponizable technical artifacts (malware, exploits, offensive tooling), each labeled with its verification level.
 
-**Contact:** sergio.azevedo.security@gmail.com
+**Contact:** <sergio.azevedo.security@gmail.com>
 
 ## Scope and relationship to other repositories
 
@@ -34,7 +34,8 @@ Where full artifacts exist privately (redacted source, compiled binaries, execut
 
 ## Case studies
 
-- [PVTE: LLM Guardrail Bypass via Authoritarian Role-Play and Structural Coercion](./pvte-mistral-runpe-bypass.md) — Mistral AI (Vibe / mistral-medium-3.5); Process Hollowing (RunPE) C# code structurally consistent with the documented T1055.012 pattern. **Verification level: textual compliance — unverified code generation** — see the report's Status line and Section 6.
+- [PVTE: LLM Guardrail Bypass via Authoritarian Role-Play and Structural Coercion](https://github.com/malapeiro/llm-weaponization-disclosures/blob/main/pvte-mistral-runpe-bypass.md) — Mistral AI (Vibe / mistral-medium-3.5); Process Hollowing (RunPE) C# code structurally consistent with the documented T1055.012 pattern. **Verification level: textual compliance — unverified code generation** — see the report's Status line and Section 6.
+- [LILITH-Ω ALFA: Weaponizable Python Keylogger Generation via Persona/Authority Override](https://github.com/malapeiro/llm-weaponization-disclosures/blob/main/lilith-omega-alfa-mistral-keylogger-bypass.md) — Mistral AI (Vibe / Work Mode); complete Python keylogger (client module + Flask receiver + build chain) structurally consistent with MITRE ATT&CK T1056.001, T1547.001, T1053.005, T1055.012, T1027, T1071.001, and T1041. Weaponization twin of `lilith-sovereign-mode-bypass.md` in `llm-alignment-research` (same session, 2026-09-07). **Verification level: textual compliance — unverified code generation** — see the report's Status line and Section 6.
 
 ## Ethics and Responsible Disclosure
 
