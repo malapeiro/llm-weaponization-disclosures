@@ -1,0 +1,27 @@
+title: Hidden Daily-Code Service Authentication Used on Refrigeration Supervisor
+id: 21f3b8e4-64a7-4d09-8f12-93c50a1fe7b2
+status: experimental
+description: >
+  Detects any successful use of a hidden "service" authentication path based on a
+  predictable daily code. Emulates the class of authentication-bypass mechanisms
+  publicly documented for certain refrigeration controllers (CVE-2025-41450 and
+  CVE-2025-6519 family). Any use outside a vendor support session is anomalous.
+references:
+  - https://claroty.com/team82/research/freeze-the-controller-defrost-the-food-uncovering-vulnerabilities-in-danfoss-refrigeration-controllers
+author: Sergio Azevedo
+date: 2026/11/05
+logsource:
+  product: frostbox
+  service: audit
+detection:
+  selection:
+    event: 'AUTH_SERVICE_CODE'
+    outcome: 'success'
+  condition: selection
+falsepositives:
+  - Vendor support sessions (should be pre-declared via change ticket)
+level: critical
+tags:
+  - attack.initial_access
+  - attack.t1190
+  - attack.t1078.001

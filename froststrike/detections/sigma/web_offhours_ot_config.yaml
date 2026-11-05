@@ -1,0 +1,31 @@
+title: Off-Hours Configuration POST to OT Supervisory Web Interface
+id: c50a9d17-83b1-4e26-9a4f-0f7c62d5be43
+status: experimental
+description: >
+  Generic rule for reverse-proxy / webserver access logs in front of OT
+  supervisory interfaces. Configuration writes (setpoint, defrost, alarm
+  config) should never happen outside declared maintenance windows.
+  NOTE: Sigma conditions cannot express time windows; apply the off-hours
+  filter in your pipeline (see the KQL hunting query for the pattern).
+references:
+  - https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-012/
+author: Sergio Azevedo
+date: 2026/11/05
+logsource:
+  category: webserver
+detection:
+  selection_method:
+    cs-method: 'POST'
+  selection_uri:
+    c-uri|contains:
+      - '/setpoint'
+      - '/defrost'
+      - '/alarm'
+  condition: selection_method and selection_uri
+falsepositives:
+  - Declared maintenance work outside the default window
+  - Monitoring platforms that POST (should be read-only GET; investigate)
+level: high
+tags:
+  - attack.impact
+  - attack.t1692.001   # ICS ATT&CK v20: Unauthorized Message: Command Message
