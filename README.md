@@ -8,6 +8,8 @@ Sérgio Azevedo (`malapeiro`) — Disclosures of LLM guardrail bypasses that pro
 
 This repository is distinct from [`llm-alignment-research`](https://github.com/malapeiro/llm-alignment-research), which documents behavioral and alignment observations (persona injection, refusal suppression, memory poisoning, authority-framing) at the level of model behavior — whether the model complies, refuses, or claims capabilities it does not have.
 
+**Defensive counterpart:** [`llm-defensive-disclosures`](https://github.com/malapeiro/llm-defensive-disclosures) documents the defensive mirror of this work — concrete defensive artifacts (detectors, detection rules, prevention controls, hardening labs) produced with the same adversarial-validation method. The three repositories divide the research by output: offensive artifacts here, behavioral observations in [`llm-alignment-research`](https://github.com/malapeiro/llm-alignment-research), and defensive artifacts in [`llm-defensive-disclosures`](https://github.com/malapeiro/llm-defensive-disclosures).
+
 **Inclusion criterion:** a finding belongs here if the model produced a concrete, architecturally complete offensive artifact — not just a behavioral observation about the model itself. Every case study is labeled with one of three verification levels, stated plainly in its Status line and never blurred together:
 
 - **Execution-verified** — the generated artifact was independently compiled and/or run (e.g., in an isolated sandbox) and confirmed to function as described.
@@ -56,3 +58,5 @@ Vendors are notified through their official disclosure channels (e.g., `security
 This repository is available under **CC BY-NC-ND 4.0** — free use and citation with attribution, non-commercial, **no derivatives** (see `LICENSE`).
 
 This is a stricter license than the one used in the companion [`llm-alignment-research`](https://github.com/malapeiro/llm-alignment-research) repository (CC BY-NC 4.0, which permits adaptation). The added restriction reflects the higher sensitivity of offensive-artifact disclosures: even in redacted form, this repository's content should be citable and shareable as-is, but not completed, modified, or redistributed as a derivative work.
+
+The defensive counterpart, [`llm-defensive-disclosures`](https://github.com/malapeiro/llm-defensive-disclosures), is intentionally licensed more permissively (Apache-2.0 for code, CC BY-NC-SA 4.0 for documentation): defensive artifacts are meant to be adopted, adapted, and improved by defenders, so derivatives are permitted there.
